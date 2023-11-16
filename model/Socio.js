@@ -1,10 +1,15 @@
- export class Socio {
+// Clase para crear el objeto socio
+
+class Socio {
     constructor (id, nombre, apellido){
         this.id = id
         this.nombre = nombre
         this.apellido = apellido
     }
+    
 }
 
-//export default var socio = new Socio('01','jose','garcia')
-//console.log(socio)
+
+function nuevoSocio(id, nombre, apellido){
+    return nuevoSocio = new Socio()
+}

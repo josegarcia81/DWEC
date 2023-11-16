@@ -3,11 +3,9 @@
 console.log('Empieza el programa')
 
 // ------------------- VARIABLES GLOBALES ------------------------
-// Importar clase para objeto Socio
-import {Socio} from "../../model/Socio.js"
+
 // capturamos el formulario de introduccion de socios - Ejercicio 1
-const formulario = document.querySelector('#formNombre') /*.querySelectorAll*/
-//formulario.addEventListener("click",capturarDatosSocio())
+const formulario = document.querySelector('#formNombre')
 // capturamos el contenedor donde escribiremos los socios - Ejercicio 2
 const contenedorEscribirSocios = document.getElementById('contenedorPintarSocios')
 
@@ -17,7 +15,6 @@ var arraySocios = [] // Registrar en el inicio
 // ------------------- MAIN ------------------------
 
 // TODO: añadimos los socios iniciales cuando empieza el programa
-
 // TODO: array para añadir los socios
 cargarSociosJSON()
 console.log('ArrayInicial',arraySocios)
@@ -37,17 +34,9 @@ function cargarSociosJSON () {
   fetch(request).then(response => {
     response.json().then(data => 
       {
-        //console.log('Datos', data)
-        /*
-        console.log( data[0].id)
-        console.log( data[0].nombre)
-        console.log( data[0].apellido)
-        */
-        aniadirSociosInicialesArray(data)
+      aniadirSociosInicialesArray(data)
       })
-    })
-  
-  
+    })  
 }
 
 /* 
@@ -56,34 +45,48 @@ TODO:  metodo para añadir socios al array
 */
 function aniadirSociosInicialesArray (data) {
   //  TODO: cargar el fichero JSON, parsearlo a objetos tipo "socio" y añadirlos al array
-  //var objetoParseado = JSON.parse(data)
 
   console.log("data length", data.length)
 
   for(let i=0; i <= data.length; i++){
-    //var nuevaId = crearID()
-    
-    var id = data[i].id
+    var pos = JSON.stringify(data[i].id)
     var nombre = data[i].nombre
     var apellido = data[i].apellido
-
-    var socio = new Socio(id,nombre,apellido)
-
-    arraySocios.push(socio)
-    //console.log(arraySocios)
-    /*
-    console.log( typeof id)
-    console.log( typeof nombre)
-    console.log( typeof apellido)
-    */
-    /*
-    var socio = new Socio(id, nombre, apellido)
-    console.log( typeof socio)
-    arraySocios.push(socio)
-    */
+    console.log(typeof pos, typeof nombre, typeof apellido)
+    var socio = crearSocio(nombre,apellido)
   }
 
 }
+
+/* 
+TODO: 
+    Metodo para crear un socio pasandole el nombre y el apellido
+    y añadirlo al array
+ */
+    function crearSocio (nombre, apellido) {
+      // TODO: crear objeto socio
+      // TODO: añadir el objeto al array
+      var nuevaId = crearID()
+
+      var socio = {
+        id: nuevaId,
+        nombre: nombre,
+        apellido: apellido,
+      };
+      
+      arraySocios.push(socio)
+      
+    }
+    
+    /*
+    TODO: 
+        Metodo para crear el ID del socio en funcion del ultimo
+        ID que hay en el array de socios
+    */
+    function crearID () {
+      // TODO: mirar el id del ultimo socio del array y sumarle uno
+      return arraySocios.length + 1
+    }
 
 /*
     TODO: Meotodo para capturar los datos del socio introducido en el formulario
@@ -92,43 +95,14 @@ function aniadirSociosInicialesArray (data) {
 function capturarDatosSocio () {
   // TODO: recoger el nombre y apellido del HTML
   // TODO: crear el socio y añadirlo al array
-  var nombreFormulario = formulario.getElementById("fnombre").value
-  var apellidoFormulario = formulario.getElementById("fapellido").value
-  //console.log(nombre)
-  //console.log(apellido)
+  var nombreFormulario = formulario.querySelector('#fnombre').value
+  var apellidoFormulario = formulario.querySelector('#fapellido').value
+  console.log(nombreFormulario, apellidoFormulario)
   crearSocio(nombreFormulario, apellidoFormulario)
-  //arraySocios.push(socio)
-  console.log(arraySocios)
-  
+    
 }
 
-/* 
-TODO: 
-    Metodo para crear un socio pasandole el nombre y el apellido
-    y añadirlo al array
- */
-function crearSocio (nombre, apellido) { //recibir array para mandar a crearId? Crear classe
-  // TODO: crear objeto socio
-  // TODO: añadir el objeto al array
-  var nuevaId = crearID()
-  var nuevoSocio = new Socio(nuevaId, nombre, apellido)
-  arraySocios.push(nuevoSocio)
-  console.log(arraySocios)
 
-  //return socio
-  
-}
-
-/*
-TODO: 
-    Metodo para crear el ID del socio en funcion del ultimo
-    ID que hay en el array de socios
-*/
-function crearID () {
-  // TODO: mirar el id del ultimo socio del array y sumarle uno
-  var nuevaId = arraySocios.length + 1
-  return nuevaId
-}
 
 // EJERCICIO 2
 
@@ -140,8 +114,22 @@ function pintarListaSocios () {
   //TODO: borramos todo lo que hay en el div
   //TODO: bucle para recorrer y pintar el array de socios
   //TODO: debemos añadir los socios a la pagina web
-  contenedorEscribirSocios.innerHTML = "Socio numero " + arraySocios[0].id + ": " + arraySocios[0].nombre + " " + + arraySocios[0].apellido
+  contenedorEscribirSocios.innerHTML = ""
+  var texto = ""
+  var texto2 = ""
+  for(let i = 0; i < arraySocios.length; i++){
+    var texto = ""
+    var num = arraySocios[i].id
+    var nom = arraySocios[i].nombre
+    var ape = arraySocios[i].apellido
+    texto = "</br>Socio numero " + num + ": " + nom + " " +  ape + "</br>"
+    texto2 += texto
+  }
+  contenedorEscribirSocios.innerHTML = texto2
 }
+  
+  
+
 
 
 console.log('Acaba el programa')
